@@ -1,0 +1,10 @@
+September 13 - Basic design ideas, looked at Facebook and Imgur for reference
+
+-> open photo in light box
+-> upload box on right/left side of screen (80/20 photos and options)
+-> editing photo options - from light box, sidebar, right click
+-> navigate by scrolling from home page or clicking in lightbox
+-> one page only
+-> hover event listener for description preview
+-> deletion: multiselect deletion from overview screen (if necessary)
+	and give option in lightbox to delete
