@@ -1,9 +1,5 @@
 $path_to_backend = 'https://das-lab.org/cse331fa2017/PhotosBackend/';
 
-function addDescription(data){
-
-}
-
 function fetchPhotos()
 {
     // get the dive where the images should go

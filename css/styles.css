@@ -79,3 +79,10 @@ button, input, optgroup, select, textarea {
     .delete button{
       width: 100px;
     }
+
+.lb-details .lb-caption{
+  font-size: 18px !important;
+}
+.lb-details .lb-number{
+  font-size: 16px !important;
+}
