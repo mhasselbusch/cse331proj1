@@ -1,3 +1,12 @@
+body {
+    background-color: #96858f !important;
+}
+
+h1 {
+	color: #d5d5d5 !important;
+	text-align: center;
+}
+
 .tn-image{
 	padding: 15px;
 }
@@ -7,6 +16,8 @@
   width: 100px;
   height: 100px;
   overflow: hidden;
+  border-radius: 12px;
+  border: 3px solid #d5d5d5;
 }
 .tn img {
   position: absolute;
@@ -28,3 +39,22 @@
     top: -36px;
     margin-left: -8px;
 }
+
+.photogrid {
+	border: 3px solid #d5d5d5;
+	background-color: #6d7993;
+}
+
+.uploadgrid {
+	border: 3px solid #d5d5d5;
+	background-color: #9099a2
+}
+
+.row {
+	margin-left: 10px !important;
+}
+
+button, input, optgroup, select, textarea {
+    width: 100%;
+}
+
