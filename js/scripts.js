@@ -62,7 +62,15 @@ function fetchPhotos()
     });
 };
 
+$(document).ajaxStart(function() {
+    $('#thumbs').hide();
+    $('.loadgif').show();
+});
 $(document).ready(fetchPhotos());
+$(document).ajaxStop(function() {
+    $('#thumbs').show();
+    $('.loadgif').hide();
+});
 
 // verification for the file
 $(':file').on('change', function() 
@@ -105,6 +113,17 @@ $("input[value='Upload Photo']").on('click', function()
                 } , false);
             }
             return myXhr;
+        },
+        success: function(data) {
+            var datastr = JSON.stringify(data);
+            if (datastr.includes("LAST_INSERT_ID()")) {
+                fetchPhotos();
+                document.getElementById("uploadme").reset();
+
+            } else {
+                alert("There was an error loading that image")
+            }
+
         }
     });
 });
