@@ -56,6 +56,13 @@ h1 {
 	margin-left: 10px !important;
 }
 
+.loadgif {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 button, input, optgroup, select, textarea {
     width: 100%;
 }
