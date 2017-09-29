@@ -24,6 +24,7 @@ function fetchPhotos()
             var link = $("<a />")
                 .attr("class", "image")
                 .attr("href", $path_to_backend + full_size_src)
+                .attr("id", val.id)
                 .attr("data-lightbox", "gallery");
 
             var image = $("<img />")
@@ -75,7 +76,7 @@ $(':file').on('change', function()
     // alert(file.type);
 });
 
-$(':button').on('click', function() 
+$("input[value='Upload Photo']").on('click', function() 
 {
     // for data, we want to submit the photo and the description
     var photoFormData = new FormData(document.forms['uploader']);
@@ -107,3 +108,8 @@ $(':button').on('click', function()
         }
     });
 });
+
+function deletePhoto(container){
+    console.log(container);
+}
+
