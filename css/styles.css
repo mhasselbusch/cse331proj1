@@ -67,3 +67,22 @@ button, input, optgroup, select, textarea {
     width: 100%;
 }
 
+    .full-size-img-container{
+        width: 50%;
+        display: inline-block;
+
+    }
+    .delete{
+      text-align: right;
+    }
+
+    .delete button{
+      width: 100px;
+    }
+
+.lb-details .lb-caption{
+  font-size: 18px !important;
+}
+.lb-details .lb-number{
+  font-size: 16px !important;
+}

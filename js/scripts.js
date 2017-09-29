@@ -1,9 +1,5 @@
 $path_to_backend = 'https://das-lab.org/cse331fa2017/PhotosBackend/';
 
-function addDescription(data){
-
-}
-
 function fetchPhotos()
 {
     // get the dive where the images should go
@@ -24,6 +20,7 @@ function fetchPhotos()
             var link = $("<a />")
                 .attr("class", "image")
                 .attr("href", $path_to_backend + full_size_src)
+                .attr("id", val.id)
                 .attr("data-lightbox", "gallery");
 
             var image = $("<img />")
@@ -83,7 +80,7 @@ $(':file').on('change', function()
     // alert(file.type);
 });
 
-$(':button').on('click', function() 
+$("input[value='Upload Photo']").on('click', function() 
 {
     // for data, we want to submit the photo and the description
     var photoFormData = new FormData(document.forms['uploader']);
@@ -126,3 +123,25 @@ $(':button').on('click', function()
         }
     });
 });
+
+function deletePhoto(container){
+    var id = container.parent().parent().parent().parent().find("img").attr("id");
+    var deletePhotoEndpoint = $path_to_backend + 'deletePhoto.php';
+    $.ajax({
+        url: deletePhotoEndpoint,
+        type: 'POST',
+        data: JSON.stringify({
+            "id" : parseInt(id)
+        }),
+
+        // some flags for jQuery
+        cache: true,
+        contentType: false,
+        processData: false,
+        success : function(data){
+            console.log(data);
+            fetchPhotos();
+        }
+    });   
+}
+
