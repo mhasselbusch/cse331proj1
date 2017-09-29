@@ -110,6 +110,23 @@ $("input[value='Upload Photo']").on('click', function()
 });
 
 function deletePhoto(container){
-    console.log(container);
+    var id = container.parent().parent().parent().parent().find("img").attr("id");
+    var deletePhotoEndpoint = $path_to_backend + 'deletePhoto.php';
+    $.ajax({
+        url: deletePhotoEndpoint,
+        type: 'POST',
+        data: JSON.stringify({
+            "id" : parseInt(id)
+        }),
+
+        // some flags for jQuery
+        cache: true,
+        contentType: false,
+        processData: false,
+        success : function(data){
+            console.log(data);
+            fetchPhotos();
+        }
+    });   
 }
 

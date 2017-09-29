@@ -58,3 +58,15 @@ button, input, optgroup, select, textarea {
     width: 100%;
 }
 
+    .full-size-img-container{
+        width: 50%;
+        display: inline-block;
+
+    }
+    .delete{
+      text-align: right;
+    }
+
+    .delete button{
+      width: 100px;
+    }
