@@ -1,5 +1,8 @@
 $path_to_backend = 'https://das-lab.org/cse331fa2017/PhotosBackend/';
 
+function addDescription(data){
+
+}
 
 function fetchPhotos()
 {
@@ -10,7 +13,8 @@ function fetchPhotos()
     $tn_div.empty();
     // retrieve images from the database
     $endpoint = $path_to_backend + 'getPhotos.php';
-
+    var viewPhotoEndpoint = $path_to_backend + 'viewPhoto.php';
+    var currentDiv;
     $.getJSON($endpoint, function(data)
     {
         jQuery.each(data, function(key, val)
@@ -18,6 +22,7 @@ function fetchPhotos()
             var full_size_src = val.tn_src.replace('/tn/', '')
 
             var link = $("<a />")
+                .attr("class", "image")
                 .attr("href", $path_to_backend + full_size_src)
                 .attr("data-lightbox", "gallery");
 
@@ -25,7 +30,7 @@ function fetchPhotos()
                 .attr("src", $path_to_backend + val.tn_src)
                 .attr("id", val.id)
                 .attr("class", "tn")
-                .attr("data-lightbox", "gallery")
+                .attr("data-lightbox", "gallery");
 
 
             var div = $("<div />")
@@ -35,6 +40,23 @@ function fetchPhotos()
             div.append(link);
             div.appendTo($tn_div);
             
+        });
+    }).done(function(){
+        $("a[class=image]").children().each(function(){
+            var _id = $(this).attr("id");
+            var item = $(this).parent();
+            $.ajax({
+                url: viewPhotoEndpoint + "?id=" + _id,
+                type: 'GET',
+
+                // some flags for jQuery
+                cache: true,
+                contentType: false,
+                processData: false,
+                success : function(data){
+                    item.attr("data-title", data[0].description);
+                }
+            });
         });
     });
 };
