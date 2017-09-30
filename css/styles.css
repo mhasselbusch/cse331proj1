@@ -11,8 +11,16 @@ h1 {
 
 .tn-image{
 	padding: 15px;
+  position: relative;
 }
 
+.tn-image .fa{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
 .tn {
   position: relative;
   width: 100px;

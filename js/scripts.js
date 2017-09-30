@@ -2,11 +2,12 @@ $path_to_backend = 'https://das-lab.org/cse331fa2017/PhotosBackend/';
 
 function fetchPhotos()
 {
-    // get the dive where the images should go
+    // get the div where the images should go
     var $tn_div = $("#thumbs");
 
     // just in case there's anything still in the thumbnails div, clear it out
     $tn_div.empty();
+
     // retrieve images from the database
     $endpoint = $path_to_backend + 'getPhotos.php';
     var viewPhotoEndpoint = $path_to_backend + 'viewPhoto.php';
@@ -31,10 +32,19 @@ function fetchPhotos()
 
 
             var div = $("<div />")
-                .attr("class", "col-xs-2 tn-image");
+                .attr("class", "col-xs-2");
+
+            var div2 = $("<div />")
+                .attr("class", "tn-image");
+
+            var trash = $("<i />")
+                .attr("class", "fa fa-trash deleteIcon")
+                .attr("aria-hidden", "true")
 
             link.append(image);
-            div.append(link);
+            div2.append(link);
+            div2.append(trash);
+            div.append(div2);            
             div.appendTo($tn_div);
             
         });
@@ -52,6 +62,10 @@ function fetchPhotos()
                 processData: false,
                 success : function(data){
                     item.attr("data-title", data[0].description);
+                    item.parent().find("i").on('click', function(){
+                        console.log("click");
+                        deletePhoto(item.parent());
+                    });
                 }
             });
         });
@@ -62,11 +76,15 @@ $(document).ajaxStart(function() {
     $('#thumbs').hide();
     $('.loadgif').show();
 });
-$(document).ready(fetchPhotos());
+
 $(document).ajaxStop(function() {
     $('#thumbs').show();
     $('.loadgif').hide();
 });
+
+$(document).ready(
+    fetchPhotos()
+);
 
 // verification for the file
 $(':file').on('change', function() 
@@ -76,8 +94,6 @@ $(':file').on('change', function()
     {
         alert('Max upload size is 10 MB.');
     }
-    // alert(file.name);
-    // alert(file.type);
 });
 
 $("input[value='Upload Photo']").on('click', function() 
@@ -124,15 +140,17 @@ $("input[value='Upload Photo']").on('click', function()
     });
 });
 
+
 function deletePhoto(container){
-    var id = container.parent().parent().parent().parent().find("img").attr("id");
+
+    var id = container.find("img").attr("id");
     var deletePhotoEndpoint = $path_to_backend + 'deletePhoto.php';
+    var formData = new FormData();
+    formData.append("id", id);
     $.ajax({
         url: deletePhotoEndpoint,
         type: 'POST',
-        data: JSON.stringify({
-            "id" : parseInt(id)
-        }),
+        data: formData,
 
         // some flags for jQuery
         cache: true,
@@ -141,7 +159,9 @@ function deletePhoto(container){
         success : function(data){
             console.log(data);
             fetchPhotos();
+            lightBoxGlobal.end();
         }
     });   
 }
+
 

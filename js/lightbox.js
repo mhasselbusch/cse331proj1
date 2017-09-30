@@ -10,6 +10,10 @@
  * https://github.com/lokesh/lightbox2/blob/master/LICENSE
  */
 
+//Globals
+var lightBoxGlobal;
+
+
 // Uses Node, AMD or browser globals to create a module.
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
@@ -89,16 +93,18 @@
     });
   };
 
+
   // Build html for the lightbox and the overlay.
   // Attach event handlers to the new DOM elements. click click click
   Lightbox.prototype.build = function() {
     var self = this;
     $('<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><div class="full-size-img-container"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="full-size-img-container delete"><button class="delete-button"type="button" name="delete">Delete</button></div></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div>').appendTo($('body'));
     $(".delete-button").on('click', function(){
-        deletePhoto($(this).parent());
+        deletePhoto($(this).parent().parent().parent().parent().parent());
     });
     // Cache jQuery objects
     this.$lightbox       = $('#lightbox');
+    lightBoxGlobal       = self;
     this.$overlay        = $('#lightboxOverlay');
     this.$outerContainer = this.$lightbox.find('.lb-outerContainer');
     this.$container      = this.$lightbox.find('.lb-container');
@@ -506,6 +512,6 @@
       $('body').removeClass('lb-disable-scrolling');
     }
   };
-
+  
   return new Lightbox();
 }));
