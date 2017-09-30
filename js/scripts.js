@@ -132,13 +132,48 @@ $("input[value='Upload Photo']").on('click', function()
                 fetchPhotos();
                 document.getElementById("uploadme").reset();
 
-            } else {
-                alert("There was an error loading that image")
+            } else if(datastr.includes("<p")){
+                alert("Please enter an image description");
             }
-
+            else{
+                alert("Could not upload image");
+            }
         }
     });
 });
+
+
+function changeDescription(id, text){
+
+    console.log(id);
+    console.log(text);
+    var formData = new FormData();
+
+    var editPhotoEndpoint = $path_to_backend + 'updatePhoto.php';
+
+    formData.append("id", id);
+    formData.append("description", text);
+
+    $.ajax({
+        url: editPhotoEndpoint,
+        type: 'POST',
+        data: formData,
+
+        // some flags for jQuery
+        cache: true,
+        contentType: false,
+        processData: false,
+        success : function(data){
+            console.log(data);
+            var datastr = JSON.stringify(data);
+            if(datastr.includes("successfully")){
+                $('.lb-caption').text(text);
+                $('input[class=edit-descr]').val('');
+            }
+            fetchPhotos();
+        }
+    });   
+}
 
 
 function deletePhoto(container){

@@ -94,3 +94,7 @@ button, input, optgroup, select, textarea {
 .lb-details .lb-number{
   font-size: 16px !important;
 }
+
+input.edit-descr{
+  margin-bottom: 10px;
+}
