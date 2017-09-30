@@ -10,6 +10,10 @@
  * https://github.com/lokesh/lightbox2/blob/master/LICENSE
  */
 
+//Globals
+var lightBoxGlobal;
+
+
 // Uses Node, AMD or browser globals to create a module.
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
@@ -89,16 +93,21 @@
     });
   };
 
+
   // Build html for the lightbox and the overlay.
   // Attach event handlers to the new DOM elements. click click click
   Lightbox.prototype.build = function() {
     var self = this;
-    $('<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><div class="full-size-img-container"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="full-size-img-container delete"><button class="delete-button"type="button" name="delete">Delete</button></div></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div>').appendTo($('body'));
+    $('<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><div class="full-size-img-container"><span class="lb-caption"></span><span class="lb-number"></span><input class="edit-descr" placeholder="New Description" type="text"></input><button class="descr-button" type="button" name="edit-description">Submit</button></div><div class="full-size-img-container delete"><button class="delete-button"type="button" name="delete">Delete</button></div></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div>').appendTo($('body'));
     $(".delete-button").on('click', function(){
-        deletePhoto($(this).parent());
+        deletePhoto($(this).parent().parent().parent().parent().parent());
+    });
+    $(".descr-button").on('click', function(){
+        changeDescription($(this).parent().parent().parent().parent().parent().find("img").attr("id"), $(this).parent().find("input[class=edit-descr]").val());
     });
     // Cache jQuery objects
     this.$lightbox       = $('#lightbox');
+    lightBoxGlobal       = self;
     this.$overlay        = $('#lightboxOverlay');
     this.$outerContainer = this.$lightbox.find('.lb-outerContainer');
     this.$container      = this.$lightbox.find('.lb-container');
@@ -261,6 +270,9 @@
   // Hide most UI elements in preparation for the animated resizing of the lightbox.
   Lightbox.prototype.changeImage = function(imageNumber) {
     var self = this;
+
+    //Clear description field
+    $('input[class=edit-descr]').val('');
 
     this.disableKeyboardNav();
     var $image = this.$lightbox.find('.lb-image');
@@ -476,15 +488,15 @@
 
     var keycode = event.keyCode;
     var key     = String.fromCharCode(keycode).toLowerCase();
-    if (keycode === KEYCODE_ESC || key.match(/x|o|c/)) {
+    if (keycode === KEYCODE_ESC) {
       this.end();
-    } else if (key === 'p' || keycode === KEYCODE_LEFTARROW) {
+    } else if (keycode === KEYCODE_LEFTARROW) {
       if (this.currentImageIndex !== 0) {
         this.changeImage(this.currentImageIndex - 1);
       } else if (this.options.wrapAround && this.album.length > 1) {
         this.changeImage(this.album.length - 1);
       }
-    } else if (key === 'n' || keycode === KEYCODE_RIGHTARROW) {
+    } else if (keycode === KEYCODE_RIGHTARROW) {
       if (this.currentImageIndex !== this.album.length - 1) {
         this.changeImage(this.currentImageIndex + 1);
       } else if (this.options.wrapAround && this.album.length > 1) {
@@ -506,6 +518,6 @@
       $('body').removeClass('lb-disable-scrolling');
     }
   };
-
+  
   return new Lightbox();
 }));
